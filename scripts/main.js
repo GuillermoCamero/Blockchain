@@ -1,44 +1,50 @@
 const crypto = require('crypto');
 const { lstat } = require('fs');
 
-class block {
-    constructor(index, transactionWorker, date, amount, previousHash = '') {
+class Block {
+    constructor(index, transactionWorker, date, data, previousHash) {
         this.index = index
         this.transactionWorker = transactionWorker
         this.date = date 
-        this.amount = amount
+        this.data = data
         this.hash = this.newHash()
         this.previousHash = previousHash
     }
 
     newHash(){
-        // let hash = crypto.getHashes();
-        return crypto.createHash('sha256', "patata  ").update(parseInt(this.previousHash).toString()).digest('hex');
+        return crypto.createHash('sha256', "patata ").update(this.data).digest('hex');
     }    
 }
 
-class blockchain {
+class Blockchain {
     constructor(){
         this.chain = [this.createGenesisBlock()];
     }
 
     createGenesisBlock(){
-        return new block(0, "Guille", "01/01/2001", 0, "0")
+        return new Block(0, "Guille", "01/01/2001", "Genesis block", "0")
     }
 
     getLatestBlock(){
-        return this.chain[this.chain.length];
+        return this.chain[this.chain.length - 1];
     }
 
-    addBlock(){
-        let lastChain = this.chain[this.chain.length]
-        this.chain.push(new block(this.chain.length, "Guille", "01/01/2001", 0, parseInt(lastChain.hash).toString()));
+    addBlock(newBlock){
+        newBlock.previousHash = this.getLatestBlock().hash;
+        newBlock.hash = newBlock.newHash();
+        this.chain.push(newBlock);
     }
 }
 
-let newBlockchain = new blockchain();
+let newBlockchain = new Blockchain();
 
+// newBlockchain.createGenesisBlock();
+
+newBlockchain.createGenesisBlock();
+newBlockchain.addBlock(new Block(1, "Guille", "01/01/2001", "newContent", newBlockchain.getLatestBlock));
+newBlockchain.addBlock(new Block(2, "Guille", "01/01/2001", "dsadasdas", newBlockchain.getLatestBlock));
+newBlockchain.addBlock(new Block(3, "Guille", "01/01/2001", "newCgfhgdfhgfontent", newBlockchain.getLatestBlock));
+newBlockchain.addBlock(new Block(4, "Guille", "01/01/2001", "newfsdfsdContent", newBlockchain.getLatestBlock));
 for (let i = 0; i < 5; i++) {
-    newBlockchain.addBlock();
-    console.log(newBlockchain.addBlock());
+    console.log(newBlockchain.chain[i])
 }
