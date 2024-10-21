@@ -7,18 +7,29 @@ class Block {
         this.transactionWorker = transactionWorker
         this.date = date 
         this.data = data
-        this.hash = this.newHash()
+        this.hash = this.calculateHash()
         this.previousHash = previousHash
+        this.nonce = 0;
     }
 
-    newHash(){
-        return crypto.createHash('sha256', "patata ").update(this.data).digest('hex');
+    calculateHash(){
+        const data = String(this.index + this.data + this.date + this.nonce);
+        return crypto.createHash('sha256', "patata").update(data).digest('hex');
     }    
+    
+    mineBlock(difficulty){
+        while(this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")){
+            this.nonce++;
+            this.hash = this.calculateHash();
+            console.log(this.hash);
+        }
+    }
 }
 
 class Blockchain {
     constructor(){
         this.chain = [this.createGenesisBlock()];
+        this.difficulty = 5;
     }
 
     createGenesisBlock(){
@@ -31,8 +42,19 @@ class Blockchain {
 
     addBlock(newBlock){
         newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.hash = newBlock.newHash();
+        newBlock.mineBlock(this.difficulty);
         this.chain.push(newBlock);
+    }
+
+    isChainValid(){
+        for(let i = 1; i < this.chain.length; i++){
+            const currentBlock = this.chain[i];
+            const previousBlock = this.chain[i - 1];
+
+            if (currentBlock.previousHash != previousBlock.hash)
+                return i
+            return true
+        }
     }
 }
 
@@ -48,3 +70,5 @@ newBlockchain.addBlock(new Block(4, "Guille", "01/01/2001", "newfsdfsdContent", 
 for (let i = 0; i < 5; i++) {
     console.log(newBlockchain.chain[i])
 }
+
+console.log(newBlockchain.isChainValid());
