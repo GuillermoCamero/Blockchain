@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { createBlock, createBlockchain } from './scripts/blockchain.js';
 
 function App() {
   const [valor, setValor] = useState('');
   const [creador, setCreador] = useState('');
   const [notas, setNotas] = useState('');
-  const [backendData, setBackendData] = useState('');
-
-  // Simulación de una función que obtiene datos del backend
-  const fetchBackendData = () => {
-    return "Este es un mensaje del backend.";
-  };
+  const [blockchain, setBlockchain] = useState(null);
 
   useEffect(() => {
-    // Obtener los datos del backend al cargar la aplicación
-    const data = fetchBackendData();
-    setBackendData(data);
+    const data = createBlockchain(2);
+    setBlockchain(data);
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí podrías manejar el envío de datos a un backend
-    console.log('Valor:', valor);
-    console.log('Creador:', creador);
-    console.log('Notas:', notas);
+
+    if (blockchain) {
+      const newBlock = createBlock(
+        blockchain.getLastIndex(),
+        creador,
+        new Date().toString(),
+        valor,
+        blockchain.getLatestHash()
+      );
+
+      blockchain.addBlock(newBlock);
+
+      setBlockchain({ ...blockchain });
+      console.log(blockchain);
+    }
   };
 
   return (
     <div className="container mt-5">
       <div className="row">
-        {/* Sección del Formulario */}
         <div className="col-md-6">
           <h2>Ingresar Datos</h2>
           <form onSubmit={handleSubmit}>
@@ -62,11 +68,26 @@ function App() {
           </form>
         </div>
 
-        {/* Sección de la Función del Backend */}
         <div className="col-md-6">
-          <h2>Función del Backend</h2>
+          <h2>Datos de la Cadena de Bloques</h2>
           <div className="p-3 border bg-light">
-            <p>{backendData}</p>
+            {blockchain && blockchain.chain.length > 0 ? (
+              blockchain.chain.map((block, index) => (
+                <div key={index} className="card mb-3">
+                  <div className="card-body">
+                    <h5 className="card-title">Bloque {block.index}</h5>
+                    <p><strong>Data:</strong> {block.data}</p>
+                    <p><strong>Date:</strong> {block.date}</p>
+                    <p><strong>Hash:</strong> {block.hash}</p>
+                    <p><strong>Nonce:</strong> {block.nonce}</p>
+                    <p><strong>Previous Hash:</strong> {block.previousHash}</p>
+                    <p><strong>Transaction Worker:</strong> {block.transactionWorker}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No hay bloques disponibles.</p>
+            )}
           </div>
         </div>
       </div>
