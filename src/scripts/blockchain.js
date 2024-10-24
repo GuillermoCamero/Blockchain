@@ -2,8 +2,7 @@ import crypto from 'crypto';
 import DateGenerator from 'random-date-generator';
 import { loremIpsum } from "lorem-ipsum";
 
-// Función para crear un bloque
-function createBlock(index, transactionWorker, date, data, previousHash) {
+function createBlock(index, transactionWorker, date, data, previousHash, nota) {
     const block = {
         index,
         transactionWorker,
@@ -12,6 +11,7 @@ function createBlock(index, transactionWorker, date, data, previousHash) {
         previousHash,
         nonce: 0,
         hash: '',
+        nota,
 
         calculateHash() {
             const dataStr = String(this.index + this.data + this.date + this.previousHash + this.nonce);
@@ -26,12 +26,10 @@ function createBlock(index, transactionWorker, date, data, previousHash) {
         }
     };
 
-    // Calcular el hash inicial
     block.hash = block.calculateHash();
     return block;
 }
 
-// Función para crear una cadena de bloques
 function createBlockchain(difficulty) {
     const blockchain = {
         chain: [],
@@ -74,18 +72,8 @@ function createBlockchain(difficulty) {
         }
     };
 
-    // Crear el bloque génesis al inicializar
     blockchain.createGenesisBlock();
     return blockchain;
 }
 
 export { createBlock, createBlockchain };
-
-// Ejemplo de uso:
-// const newBlockchain = createBlockchain(4);
-// for (let i = 1; i < 6; i++) {
-//     const newBlock = createBlock(i, "Juan", DateGenerator.getRandomDate(), loremIpsum(), newBlockchain.getLatestHash());
-//     newBlockchain.addBlock(newBlock);
-// }
-// console.log(newBlockchain.chain);
-// console.log(newBlockchain.isChainValid());

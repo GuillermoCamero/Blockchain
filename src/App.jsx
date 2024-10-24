@@ -22,7 +22,8 @@ function App() {
         creador,
         new Date().toString(),
         valor,
-        blockchain.getLatestHash()
+        blockchain.getLatestHash(),
+        notas
       );
 
       blockchain.addBlock(newBlock);
@@ -82,6 +83,7 @@ function App() {
                     <p><strong>Nonce:</strong> {block.nonce}</p>
                     <p><strong>Previous Hash:</strong> {block.previousHash}</p>
                     <p><strong>Transaction Worker:</strong> {block.transactionWorker}</p>
+                    <p><strong>Notas:</strong> {block.nota}</p>
                   </div>
                 </div>
               ))
