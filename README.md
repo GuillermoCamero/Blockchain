@@ -14,11 +14,11 @@ Para clonar y ejecutar esta aplicación, asegúrate de tener [Node.js](https://n
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/blockchain-react-app.git
+   git clone https://github.com/GuillermoCamero/Blockchain.git
 
 2. Cambia al directorio del proyecto:
    ```bash
-    cd blockchain-react-app
+    cd Blockchain
 
 3. Instala las dependencias:
    ```bash
@@ -26,7 +26,7 @@ Para clonar y ejecutar esta aplicación, asegúrate de tener [Node.js](https://n
 
 4. Ejecuta la aplicación:
    ```bash
-    npm start
+    npm start dev
 
 La aplicación debería estar disponible en http://localhost:3000.
 
