@@ -1,8 +1,34 @@
-# React + Vite
+# Blockchain React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una aplicación de ejemplo que implementa una cadena de bloques utilizando React y Bootstrap. La aplicación permite a los usuarios ingresar datos y agregar nuevos bloques a la cadena, que luego se visualizan en una interfaz basada en Bootstrap.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Crear una cadena de bloques básica con funcionalidad de prueba de trabajo.
+- Añadir bloques a la cadena ingresando datos como valor, creador y notas.
+- Visualizar cada bloque con detalles como fecha, hash, índice, nonce, y hash previo.
+
+## Instalación
+
+Para clonar y ejecutar esta aplicación, asegúrate de tener [Node.js](https://nodejs.org/) y [npm](https://www.npmjs.com/) instalados.
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/blockchain-react-app.git
+
+2. Cambia al directorio del proyecto:
+   ```bash
+    cd blockchain-react-app
+
+3. Instala las dependencias:
+   ```bash
+    npm install
+
+4. Ejecuta la aplicación:
+   ```bash
+    npm start
+
+La aplicación debería estar disponible en http://localhost:3000.
+
+## Créditos
+Este proyecto fue creado utilizando React y Bootstrap.
